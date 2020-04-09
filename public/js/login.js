@@ -4,6 +4,7 @@ $(document).ready(function() {
   var emailInput = $("input#email-input");
   var passwordInput = $("input#password-input");
 
+
   // When the form is submitted, we validate there's an email and password entered
   loginForm.on("submit", function(event) {
     event.preventDefault();
@@ -36,4 +37,8 @@ $(document).ready(function() {
         console.log(err);
       });
   }
+
+
 });
+
+
