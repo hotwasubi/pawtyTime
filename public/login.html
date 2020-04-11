@@ -5,22 +5,38 @@
   <title>Passport Authentication</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vaibhav111tandon/vov.css@latest/vov.css">
   <link href="stylesheets/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-      </div>
+  <div class="vov fade-out t-2">
+    <svg id="svg-sprite" >
+      <symbol id="paw" viewBox="0 0 249 209.32">
+        <ellipse cx="27.917" cy="106.333" stroke-width="0" rx="27.917" ry="35.833"/>
+        <ellipse cx="84.75" cy="47.749" stroke-width="0" rx="34.75" ry="47.751"/>
+        <ellipse cx="162" cy="47.749" stroke-width="0" rx="34.75" ry="47.751"/>
+        <ellipse cx="221.083" cy="106.333" stroke-width="0" rx="27.917" ry="35.833"/>
+        <path stroke-width="0" d="M43.98 165.39s9.76-63.072 76.838-64.574c0 0 71.082-6.758 83.096 70.33 0 0 2.586 19.855-12.54 31.855 0 0-15.75 17.75-43.75-6.25 0 0-7.124-8.374-24.624-7.874 0 0-12.75-.125-21.5 6.625 0 0-16.375 18.376-37.75 12.75 0 0-28.29-7.72-19.77-42.86z"/>
+      </symbol>
+    </svg>
+  
+  
+    <div class="ajax-loader">
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
+      <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
     </div>
-  </nav>
-  <div class="container">
+  </div>
+  <div class="container vov fade-in t-3">
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
-        <h2>Login Form</h2>
+        <h2><i class="fas fa-paw amber-text"></i> Login Form</h2>
         <form class="login">
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
@@ -30,12 +46,23 @@
             <label for="exampleInputPassword1">Password</label>
             <input type="password" class="form-control" id="password-input" placeholder="Password">
           </div>
-          <button type="submit" class="btn btn-default">Login</button>
+          <button type="submit" class="btn btn-default amber" id="login"><i class="fas fa-paw"></i> Login</button>
         </form>
         <br />
         <p>Or sign up <a href="/">here</a></p>
       </div>
     </div>
+  </div>
+  <div class="fixed-action-btn toolbar">
+    <a class="btn-floating btn-large amber tooltipped" data-position="top" data-tooltip="Menu">
+      <i class="large material-icons">pets</i>
+    </a>
+    <ul>
+      <li><a href="./home.html" class="btn-floating amber"><i class="material-icons">home</i></a></li>
+      <li><a href="./members.html"class="btn amber"><i class="material-icons">account_box</i></a></li>
+      <li><a href="./signup.html"class="btn-floating amber"><i class="material-icons">group_add</i></a></li>
+      <li><a href="./scheduler.html"class="btn-floating amber"><i class="material-icons">event</i></a></li>
+    </ul>
   </div>
 
   <script src="https://kit.fontawesome.com/14111279f9.js" crossorigin="anonymous"></script>

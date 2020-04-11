@@ -6,6 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  $(document).ready(function(){
-    $('.tooltipped').tooltip();
-  });
+
+
+  
