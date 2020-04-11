@@ -1,5 +1,5 @@
 // Requiring our models and passport as we've configured it
-var db = require("../models");
+var db = require("../orm");
 var passport = require("../config/passport");
 
 module.exports = function(app) {
@@ -53,12 +53,14 @@ module.exports = function(app) {
 
   // Walker Tasks
   // My Current Booked appts
-  app.get("/api/bookedappts", function(req, res) {
+/*   app.get("/api/bookedappts", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
       res.json({});
     } else {
-
+      db.getWalks({
+        req.body.dg
+      })
       // Otherwise send back the user's email and id
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
@@ -66,6 +68,6 @@ module.exports = function(app) {
         id: req.user.id
       });
     }
-  });
+  }); */
 
 };

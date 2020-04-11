@@ -1,5 +1,9 @@
 // Import sql connection
 var conn = require('../config/connection.js');
+var bcrypt = require("bcryptjs");
+
+//inside create function
+//  user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
 
 // Helper function for SQL syntax.
 // Let's say we want to pass 3 values into the mySQL query.
@@ -41,11 +45,69 @@ function objToSql(ob) {
   
 var orm = {
 
+
+/*  actortype boolean not null,
+	firstName varchar(25) not null,
+	lastName varchar(25) not null,
+	address1 varchar(50) not null,
+	address2 varchar(50),
+	city varchar(15) not null,
+	st enum("AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY") not null,
+	phone int not null,
+	phoneType enum("landline", "mobile"),
+	zip5 int not null,
+	lat decimal(10,3),
+	lng decimal(10,3), 
+	username varchar(20),
+	pw varchar(25),
+    createActor: function(newActor){ */
+        //if Username isn't valid return error
+        //assume 
+/*     }, */
+
+    // create valid email function here and return true/false
+
+    //getActor need -- for passport authentication
+
     // Walker Tasks
-    bookedStatus: function(table, condition, cb){
-        var queryString = "SELECT * FROM " + table + "WHERE "; 
-        queryString += " WHERE ";
-        queryString += condition;
+    // List appointments: can be for booked or unbooked slots
+    // if booked == false, unbooked
+    // if booked == true booked.
+    //wid = Walker ID, booked = booked
+
+    bookedStatus: function(wid, booked, cb){
+        var queryString = ""
+        if(booked){
+        // for booked appointments
+        queryString = `
+            SELECT
+                l.dogwakerId, l.walkDate, l.timeSlot, l.dogUser, r.dogName, c.firstName, c. lastName 
+            FROM
+                appmnt l
+            left join 
+                dog r
+            on
+                l.dogUser = r.id
+            left join
+                dogactor c
+            on
+                r.dogownerId = c.id
+            where
+                l.dogwalkerId = ${wid}
+                AND c.actortype; 
+        `
+        // actortype is boolean
+        } else {
+
+        //Appt not booked
+        queryString = `
+            select 
+                walkDate, timeSlot
+            from
+                appmnt
+            where 
+                dogUser = ${0} AND dogwalkerId = ${wid}`
+        }; 
         console.log(queryString);
         conn.query(queryString, function(err, result){
             if (err) throw err;
@@ -53,15 +115,15 @@ var orm = {
         });
     },
 
-    addAppt: function(table, cols, vals, cb){
-        var queryString = "INSERT INTO " + table;
-        queryString += " (";
-        queryString += cols.toString();
-        queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.length);
-        queryString += ") ";
-
+    // did = dogwalkerID, wd = walkDate, ts = timeSlot
+    addAppt: function(did, wd, ts, cb){
+        var queryString = `
+        INSERT INTO 
+            appmnt 
+            (dogwalkerId, walkDate, timeSlot, dateAdded)
+        VALUES
+            (${did}, ${wd}, ${ts}, NOW());
+        `;
         console.log(queryString);
 
         conn.query(queryString, vals, function(err, result){
@@ -71,13 +133,44 @@ var orm = {
     },
 
     //Function for setting appt availability
-    updateAppt: function(table, objColVals, condition, cb){
-        var queryString ="UPDATE "+ table;
-        queryString += " SET ";
-        queryString += objToSql(objColVals);
-        queryString += " WHERE ";
-        queryString += condition;
-
+    // did = dogwalkerID, wd = walkDate, ts = timeSlot, 
+    //du = dogUser
+    updateAppt: function(did, wd, ts, du, cb){
+        var queryString = 
+        `UPDATE appmnt
+        SET
+            dogUser = ${du}
+        WHERE
+            dogwalkerId = ${did} 
+            AND walkDate = ${wd}
+            AND timeSlot = ${ts};`;
+        console.log(queryString);
+        conn.query(queryString, function(err, result){
+            if (err) throw err;
+            cb(result);
+        });
+    },
+    //fn = firstName, ln = lastName, add1 = address1
+    // add2 = address2, cty = city, s =st, 
+    // z5 = zip5, ph = phone, pt = phoneType
+    updateWalker: function(id, fn, ln, add1, add2, cty, s, z5, ph, pt, cb){
+        var queryString = 
+            `UPDATE 
+                dogactor
+            SET
+                firstName = ${fn},
+                lastName = ${ln},
+                address1 = ${add1},
+                address2 = ${add2},
+                city = ${cty},
+                st = ${s},
+                zip5 = ${z5},
+                phone = ${ph},
+                phoneType= ${pt}
+            WHERE
+                id =${id}
+                AND NOT actortype;
+        `;
         console.log(queryString);
         conn.query(queryString, function(err, result){
             if (err) throw err;
@@ -85,36 +178,34 @@ var orm = {
         });
     },
 
-    updateWalker: function(table, objColVals, condition, cb){
-        var queryString ="UPDATE "+ table;
-        queryString += " SET ";
-        queryString += objToSql(objColVals);
-        queryString += " WHERE ";
-        queryString += condition;
-
+    // dogwalkerid = dwid, walkdate = wd, timeslot = ts
+    // this will also delete appointments even if it's 
+    // booked -- need prior step check
+    deleteAppt: function(dwid, wd, ts, cb){
+        var queryString = 
+    `DELETE FROM
+        appmnt
+    where
+        dogwalkerId = ${dwid}
+        AND walkDate = ${wd}
+        AND timeSlot = ${ts};`
         console.log(queryString);
         conn.query(queryString, function(err, result){
             if (err) throw err;
             cb(result);
         });
     },
-
-
-    deleteAppt: function(table, condition, cb){
-        var queryString ="DELETE FROM "+ table;
-        queryString += " WHERE ";
-        queryString += condition;
-
-        console.log(queryString);
-        conn.query(queryString, function(err, result){
-            if (err) throw err;
-            cb(result);
-        });
-    },
-    deleteWalker: function(table, condition, cb){
-        var queryString ="DELETE FROM "+ table;
-        queryString += " WHERE ";
-        queryString += condition;
+    // This delete a walker, however one step prior
+    // need to check if an open appointments
+    // before deleting
+    // if there are appointments, cannot delete
+    // id is id from dogwalker
+    deleteWalker: function(id, cb){
+        var queryString = 
+        `DELETE FROM 
+            dogactor
+        WHERE
+            id = ${id}`;
 
         console.log(queryString);
         conn.query(queryString, function(err, result){
@@ -124,20 +215,23 @@ var orm = {
     },
 
     // Owner Tasks
-    getWalks: function(dogowner, cb){
+    // get all booked walks for my dogs.
+    // dg == dogownerId
+    getWalks: function(dg, cb){
         var queryString = `
             SELECT l.id AS id, l.dogname, c.walkDate, c.timeSlot  
             FROM 
                 dog l
             LEFT JOIN
-                dogowner r
+                dogactor r
             ON
                l.dogownerId = r.id
             LEFT JOIN
                 appmnt c
             ON
               c.dogUser = l.id
-            WHERE r.id = ${dogowner}
+            WHERE r.id = ${dg}
+            AND r.actortype
             `
         console.log(queryString);
         conn.query(queryString, function(err, result){
@@ -146,6 +240,129 @@ var orm = {
         });
     },
 
+    // This will update any parameter in the appt table
+    // for a specific dog, however other checks will 
+    // be needed to ensure appt and walker availability
+    // dwid = dogwakerId, wd = walkDate, ts = timeSlot, 
+    // du = dogUser, cncl = true to cancel false to change
+
+    updateWalk: function(dwid, wd, ts, du, cncl, cb){
+        var queryString = ""
+
+        if(!cncl){
+            queryString = 
+            `UPDATE 
+                appmnt
+            SET
+                dogwalkerId = ${dwid},
+                walkDate = ${wd},
+                timeSlot = ${ts},
+            where
+                dogUser = ${du};
+                `
+        } else {
+            queryString = 
+            `UPDATE 
+                appmnt
+            SET
+                dogUser = 0
+            WHERE
+                dogUser = ${du}`;
+        }
+
+        console.log(queryString);
+        conn.query(queryString, function(err, result){
+            if (err) throw err;
+            cb(result);
+        });
+    },
+
+    // doid = dogownerId, dn = dogName, bd = breed
+    // One prior step, must ensure owner exists 
+
+    addNewDog:function(doid, dn, bd, cb){
+        var queryString = 
+        `INSERT INTO 
+            dog (dogownerId, dogName, breed, dateAdded)
+        VALUES
+            (${doid}, ${dn}, ${bd}, NOW());
+        `
+        console.log(queryString);
+        conn.query(queryString, function(err, result){
+            if (err) throw err;
+            cb(result);
+        });
+    },
+
+    // dwid = dogwalkerId, wd = walkDate,
+    // ts = timeSlot, du = dogUser
+    // one step prior must check if dog exists
+    bookWalk: function(dwid, wd, ts, du, cb){
+        var queryString = 
+        `UPDATE 
+            appmnt
+        SET 
+            dogUser = ${du}
+        WHERE
+            dogwalkerId = ${dwid}
+            AND walkDate = ${wd}
+            AND timeSlot = ${ts}
+        `
+
+        console.log(queryString);
+        conn.query(queryString, function(err, result){
+            if (err) throw err;
+            cb(result);
+        });
+    },
+        //fn = firstName, ln = lastName, add1 = address1
+    // add2 = address2, cty = city, s =st, 
+    // z5 = zip5, ph = phone, pt = phoneType
+    updateOwner: function(id, fn, ln, add1, add2, cty, s, z5, ph, pt, cb){
+        var queryString = 
+            `UPDATE 
+                dogactor
+            SET
+                firstName = ${fn},
+                lastName = ${ln},
+                address1 = ${add1},
+                address2 = ${add2},
+                city = ${cty},
+                st = ${s},
+                zip5 = ${z5},
+                phone = ${ph},
+                phoneType= ${pt}
+            WHERE
+                id =${id}
+                AND actortype;
+        `;
+        console.log(queryString);
+        conn.query(queryString, function(err, result){
+            if (err) throw err;
+            cb(result);
+        });
+    },
+    // In acutality nothing to change other than
+    // delete in the event of giving dog away
+    // or dog dies
+    // did = dogOwnerId
+    deleteDog: function(id, did, cb){
+        var queryString = 
+            `DELETE FROM 
+                dog
+            WHERE
+                id = ${id}
+                AND dogownerId = ${did};
+            `;
+            console.log(queryString);
+            conn.query(queryString, function(err, result){
+                if (err) throw err;
+                cb(result);
+            });
+    },
+
+/*     validPw: function(ud, pw) */
+    //pass bcrypt coparison
 };
 
 //export ORM
