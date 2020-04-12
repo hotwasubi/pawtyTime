@@ -1,6 +1,7 @@
 // Requiring bcrypt for password hashing. Using the bcryptjs version as the regular bcrypt module sometimes causes errors on Windows machines
 var bcrypt = require("bcryptjs");
-// Creating our DogActor model which can be either a walker or an owner
+// Creating our DogActor model which can be either a walker or an 
+//owner.  Owner has actortype: true and Walker has actortype: false
 module.exports = function(sequelize, DataTypes) {
   var DogActor = sequelize.define("DogActor", {
     // The email cannot be null, and must be a proper email before creation
