@@ -47,7 +47,7 @@ create table dogactor (
 */
 create table dog (
    	id int auto_increment not null,
-	dogownerId int not null,
+	dogactorId int not null,
 	dogName varchar(25) not null,
 	breed varchar(25) not null,
 	breedUrl varchar(50),

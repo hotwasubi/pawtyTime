@@ -1,5 +1,5 @@
 // Requiring our models and passport as we've configured it
-var db = require("../orm");
+var db = require("../models");
 var passport = require("../config/passport");
 
 module.exports = function(app) {
@@ -7,11 +7,7 @@ module.exports = function(app) {
   // If the user has valid login credentials, send them to the members page.
   // Otherwise the user will be sent an error
   app.post("/api/login", passport.authenticate("local"), function(req, res) {
-    // Sending back a password, even a hashed password, isn't a good idea
-    res.json({
-      email: req.user.email,
-      id: req.user.id
-    });
+    res.json(req.user);
   });
 
   // Route for signing up a user. The user's password is automatically hashed and stored securely thanks to
@@ -50,24 +46,4 @@ module.exports = function(app) {
       });
     }
   });
-
-  // Walker Tasks
-  // My Current Booked appts
-/*   app.get("/api/bookedappts", function(req, res) {
-    if (!req.user) {
-      // The user is not logged in, send back an empty object
-      res.json({});
-    } else {
-      db.getWalks({
-        req.body.dg
-      })
-      // Otherwise send back the user's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.user.email,
-        id: req.user.id
-      });
-    }
-  }); */
-
 };
