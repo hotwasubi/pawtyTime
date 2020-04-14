@@ -41,7 +41,6 @@ module.exports = function(app) {
     res.redirect("/");
   });
 
-
   //Update DogActor information
   //fn = firstName, ln = lastName, add1 = address1
   // add2 = address2, cty = city, s =st, 
@@ -76,7 +75,6 @@ module.exports = function(app) {
     }).then(results => res.json(results)
     );
   });
-
 
   //APPOINTMENT ROUTES
   //Route for getting appointments: if booked == true, then dogUser !=0
@@ -174,14 +172,14 @@ module.exports = function(app) {
       breedUrl:  "https://dog.ceo/api/breed/"+ req.body.breed + "/images/random"
     }).then (results => res.json(results));
    });
-};
 
-// Delete a dog
-app.delete("/api/deleteDog/:id", function(req, res) {
-  db.Dog.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(results => res.json(results) 
-  );
-});
+   // Delete a dog
+  app.delete("/api/deleteDog/:id", function(req, res) {
+    db.Dog.destroy({
+      where: {
+        id: req.params.id
+      }
+    }).then(results => res.json(results) 
+    );
+  });
+};
