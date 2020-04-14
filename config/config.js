@@ -1,9 +1,11 @@
-{
+require("dotenv").config();
+
+modeule.exports = {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "passport_demo",
-    "host": "127.0.0.1",
+    "password": PROCESS.ENV.dbpassword,
+    "database": "dogwalk",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
