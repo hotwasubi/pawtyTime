@@ -6,11 +6,13 @@
     <title>Home</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vaibhav111tandon/vov.css@latest/vov.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/style.css">
 
 </head>
 
 <body>
+  <!-- Pre-loader -->
   <div class="vov fade-out t-2">
   <svg id="svg-sprite" >
     <symbol id="paw" viewBox="0 0 249 209.32">
@@ -32,19 +34,85 @@
     <div class="paw"><svg class="icon"><use xlink:href="#paw" /></svg></div>
   </div>
 </div>
+
+<!-- logo -->
 <div class="container vov fade-in t-3">
   <div class="row">
     <div class="col s12" id="logo">
-      <h1 class="center"><i class="fas fa-paw small amber-text"></i> PAWTY TIME</h1>
+      <h1 class="center"><i id="pawPrint" class="fas fa-paw small amber-text"></i> Pawty time!</h1>
     </div>
   </div>
   <div class="row">
-    <div class="col m6"><a href="./login.html" class="waves-effect waves-light btn-large right amber" id="login"><i class="fas fa-paw"></i><span class=""> Login</span></a></div>
-    <div class="col m6"><a href="./signup.html" class="waves-effect waves-light btn-large left amber" id="signUp"><i class="fas fa-paw"></i><span class=""> Sign Up</span></a></div>
+    <div class="col m6"><a href="#modal1" class="waves-effect waves-light btn-large right amber modal-trigger" id="login"><i class="fas fa-paw"></i><span> Login</span></a></div>
+    <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
+    <div class="col m6"><a href="#modal2" class="waves-effect waves-light btn-large left amber modal-trigger" id="signUp"><i class="fas fa-paw"></i><span> Sign Up</span></a></div>
   </div>
-
-
+  <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
 </div>
+
+
+<!-- login modal -->
+<div id="modal1" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h2><i class="fas fa-paw amber-text"></i> Login Form</h2>
+    <form class="login">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="email-input" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="password-input" placeholder="Password">
+      </div>
+    
+    </form>
+  </div>
+  <div class="modal-footer">
+  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i>Welcome Back!</button></a>
+  </div>
+</div>
+
+<!-- sign up modal -->
+
+<div id="modal2" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h2><i class="fas fa-paw amber-text"></i> Sign Up</h2>
+    <form class="login">
+      <div class="form-group">
+        <label for="PetName">Pet Name</label>
+        <input type="text" class="form-control" id="email-input" placeholder="Fido">
+      </div>
+      <div class="form-group">
+        <label for="firstName">Full Name</label>
+        <input type="text" class="form-control" id="email-input" placeholder="Alfred Pennyworth">
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="email-input" placeholder="Email">
+      </div>
+      
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" id="password-input" placeholder="Password">
+      </div>
+
+      <div class="form-group">
+        <label for="Address">Address</label>
+        <input type="text" class="form-control" id="address-input" placeholder="1600-pennsylvania-avenue">
+        <label for="Address">City</label>
+        <input type="text" class="form-control" id="city-input" placeholder="D.C">
+        <label for="Address">Zip</label>
+        <input type="text" class="form-control" id="zip-input" placeholder="20500">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i>Join the Pack!</button></a>
+  </div>
+</div>
+
+
 
 
 
