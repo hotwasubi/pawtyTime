@@ -7,7 +7,7 @@ module.exports = function(app) {
   // If the dogactor has valid login credentials, send them to the members page.
   // Otherwise the dogactor will be sent an error
   app.post("/api/login", passport.authenticate("local"), function(req, res) {
-    res.json(req.dogactor);
+    res.json(req.user);
   });
 
   // Route for signing up a dogactor. The dogactor's password is automatically hashed and stored securely thanks to
@@ -17,15 +17,17 @@ module.exports = function(app) {
   app.post("/api/signup", function(req, res) {
     db.DogActor.create({
       email: req.body.email,
-      password: req.body.pw,
-      firstName: req.body.fn,
-      lastName: req.body.ln,
-      address1: req.body.add1,
-      address2: req.body.add2,
-      city: req.body.cty,
-      st: req.body.s,
-      zip5: req.body.z5,
-      phone: req.body.pt
+      password: req.body.password,
+      actorType: req.body.actorType,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      address1: req.body.address1,
+      address2: req.body.address2,
+      city: req.body.city,
+      st: req.body.st,
+      zip5: req.body.zip5,
+      phone: req.body.phone,
+      phoneType: req.body.phoneType
     })
       .then(function() {
         res.redirect(307, "/api/login");
@@ -103,7 +105,7 @@ module.exports = function(app) {
         }
       }).then(function(dbUnbooked){
         res.json(dbUnbooked)
-      })
+      });
   });
 
 // get booked appointments
@@ -147,9 +149,9 @@ module.exports = function(app) {
         where: {
           id: req.params.id  
         }
-      })
-    }).then(function(dbDog){
-    res.json(dbDog);
+      }).then(function(dbDog){
+        res.json(dbDog);
+    });
   });
 
   //Delete a time slot

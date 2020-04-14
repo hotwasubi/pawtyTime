@@ -5,7 +5,7 @@ var bcrypt = require("bcryptjs");
 module.exports = function(sequelize, DataTypes) {
   var DogActor = sequelize.define("DogActor", {
     // The email cannot be null, and must be a proper email before creation
-    username: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -14,11 +14,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     // The password cannot be null
-    pw: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    actortype :{
+    actorType :{
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
@@ -49,8 +49,7 @@ module.exports = function(sequelize, DataTypes) {
     phone: {
       type: DataTypes.STRING,
       validate: {
-        is: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/i,
-        message: "Must be a valid telephone number"
+        is: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/i
       }
     },
     phoneType: {

@@ -1,9 +1,9 @@
 require("dotenv").config();
 
-modeule.exports = {
+module.exports = {
   "development": {
     "username": "root",
-    "password": PROCESS.ENV.dbpassword,
+    "password": process.env.dbpassword,
     "database": "dogwalk",
     "host": "localhost",
     "dialect": "mysql"

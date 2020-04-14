@@ -9,15 +9,15 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         dogUser:{
-            type: DataTypes.INT,
+            type: DataTypes.INTEGER,
             allowNull: false,
             default: 0
-        },
+        }/* ,
         indexes: [
             {
                 fields: ["walkDate", "timeSlot"]
             }
-        ]
+        ] */
     });
 
     Appt.associate = function(models){
