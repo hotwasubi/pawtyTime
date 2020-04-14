@@ -18,12 +18,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
     actortype :{
       type: DataTypes.BOOLEAN,
       allowNull: false
@@ -69,29 +63,26 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: 5,
         isInt : true
-      },
+      }
+    },
       lat:{
         type: DataTypes.DECIMAL(10,3),
         allowNull: true
       },
       lng: {
         type: DataTypes.DECIMAL(10,3),
-        allowNull: false
-      },
-
-      
-    }
+        allowNull: true
+      }
   });
 
   DogActor.associate = function(models) {
     //dogowners can have many dogs
-    DogActor.hasMany(models.Dog), {
+    DogActor.hasMany(models.Dog, {
       onDelete: "cascade"
-    },
-    DogActor.hasMany(models.Appt), {
+    });
+    DogActor.hasMany(models.Appt, {
       onDelete: "cascade"
-    }
-
+    });
   };
   // Creating a custom method for our DogActor model. This will check if an unhashed password entered by the actor can be compared to the hashed password stored in our database
   DogActor.prototype.validPassword = function(password) {

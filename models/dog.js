@@ -19,8 +19,8 @@ module.exports = function(sequelize, DataTypes) {
     });
 
     Dog.associate = function(models){
-        Dog.belongsTo(models.DogActor),
-        Dog.hasMany(models.Appt)
+        Dog.belongsTo(models.DogActor);
+        Dog.hasMany(models.Appt);
     };
 
     return Dog;

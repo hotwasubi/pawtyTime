@@ -13,10 +13,19 @@ module.exports = function(app) {
   // Route for signing up a dogactor. The dogactor's password is automatically hashed and stored securely thanks to
   // how we configured our Sequelize User Model. If the dogactor is created successfully, proceed to log the dogactor in,
   // otherwise send back an error
+  //Create new DogActor
   app.post("/api/signup", function(req, res) {
     db.DogActor.create({
       email: req.body.email,
-      password: req.body.pw
+      password: req.body.pw,
+      firstName: req.body.fn,
+      lastName: req.body.ln,
+      address1: req.body.add1,
+      address2: req.body.add2,
+      city: req.body.cty,
+      st: req.body.s,
+      zip5: req.body.z5,
+      phone: req.body.pt
     })
       .then(function() {
         res.redirect(307, "/api/login");
@@ -32,103 +41,23 @@ module.exports = function(app) {
     res.redirect("/");
   });
 
-  // Route for getting some data about our dogactor to be used client side
-  /* app.get("/api/dogactor_data", function(req, res) {
-    if (!req.dogactor) {
-      // The dogactor is not logged in, send back an empty object
-      res.json({});
-    } else {
-      // Otherwise send back the dogactor's email and id
-      // Sending back a password, even a hashed password, isn't a good idea
-      res.json({
-        email: req.dogactor.email,
-        id: req.dogactor.id
-      });
-    }
-  }); */
 
-  //Route for getting appointments: if booked == true, then dogUser !=0
-  // if booked == false, then dogUser == 0
-  app.get("/api/booked_appt:id&:booked&:actortype", function(req, res){
-    if(!req.params.booked){
-      db.Appt.findAll({
-        attributes:["walkDate", ["timeSlot"]],
-        where: {
-          id: req.params.id,
-          dogUser: 0
-        }
-      }).then(function(dbUnbooked){
-        res.json(dbUnbooked)
-      })
-    } else {
-      db.Appt.findAll({
-        attributes: ["walkDate", "timeSlot", "dogUser", "dogName", "firstName", "lastName"],
-        where: {
-          id: req.params.id,
-          dogUser: {$ne:0},
-          actortype: req.params.actorytype
-        },
-        include:[db.DogActor, db.Dog]
-      })
-    }
-  });
-
-  //Create a new open time slot
-  // did = dogwalkerId, wd = walkDate, ts = timeSlot
-  app.post("/api/add-appt/:did&:wd&:ts", function(req,res){
-    db.Appt.create({
-      dogwalkerId: req.params.did,
-      walkDate: req.params.wd,
-      timeSlot: req.params.ts
-    }).then(function(dbAppt){
-      console.log(dbAppt);
-      res.json(dbAppt);
-    });
-  });
-
-  // Book or Cancel a walking appointment
-  // for a specific dog, however other checks will 
-  // be needed to ensure appt and walker availability
-  // dwid = dogwakerId, wd = walkDate, ts = timeSlot, 
-  // du = dogUser, cncl = true to cancel false to change
-  app.post("/api/update-walk/:dwid&:wd&:ts&:du&:cncl", function(req,res){
-    // if cncl true, cancel the appointment by setting dogUser = 0
-    if(reg.params.cncl){
-      db.Apt.update({
-        dogUser: 0,
-        where:{
-          dogwalkerId: req.params.dwid,
-          walkDate: req.params.wd,
-          timeSlot: req.params.ts
-        }
-      })
-    } else{
-      db.Appt.update({
-        dogUser: req.params.du,
-        where: {
-          dogwalkerId: req.params.dwid,
-          walkDate: req.params.wd,
-          timeSlot: req.params.ts          
-        }
-      })
-    }
-  }).then(function(dbDog){
-    res.json(dbDog);
-  });
-
+  //Update DogActor information
   //fn = firstName, ln = lastName, add1 = address1
   // add2 = address2, cty = city, s =st, 
   // z5 = zip5, ph = phone, pt = phoneType
-  app.post("/api/update-actor/:id&:fn&:ln&:add1&:add2&:cty&:s&:z5&:ph&:pt", function(req, res){
+  app.put("/api/update-actor/:id", function(req, res){
     db.dogActor.update({
-      firstName: req.params.fn,
-      lastName: req.params.ln,
-      address1: req.params.add1,
-      address2: req.params.add2,
-      city: req.params.cty,
-      st: req.params.s,
-      zip5: req.params.z5,
-      phone: req.params.pt,
+      firstName: req.body.fn,
+      lastName: req.body.ln,
+      address1: req.body.add1,
+      address2: req.body.add2,
+      city: req.body.cty,
+      st: req.body.s,
+      zip5: req.body.z5,
+      phone: req.body.pt
+    }, 
+    {
       where: {
         id: req.params.id
       }
@@ -136,6 +65,123 @@ module.exports = function(app) {
       console.log(res.json(dbAppt));
       res.json(dbAppt);
     })
-  })
+  });
 
+  // Delete DogActor
+  app.delete("/api/deleteActor/:userName", function (req,res ){
+    db.DogActor.destroy({
+      where: {
+        userName: req.params.userName
+      }
+    }).then(results => res.json(results)
+    );
+  });
+
+
+  //APPOINTMENT ROUTES
+  //Route for getting appointments: if booked == true, then dogUser !=0
+  // if booked == false, then dogUser == 0
+
+    //Create a new open appointment
+  // did = dogwalkerId, wd = walkDate, ts = timeSlot
+  app.post("/api/add-appt/", function(req,res){
+    db.Appt.create({
+      dogwalkerId: req.body.did,
+      walkDate: req.body.wd,
+      timeSlot: req.body.ts
+    }).then(function(dbAppt){
+      console.log(dbAppt);
+      res.json(dbAppt);
+    });
+  });
+
+  // Get unbooked appointments
+  app.get("/api/unbooked_appt/:id", function(req, res){
+      db.Appt.findAll({
+        attributes:["walkDate", "timeSlot"],
+        where: {
+          id: req.params.id,
+          dogUser: 0
+        }
+      }).then(function(dbUnbooked){
+        res.json(dbUnbooked)
+      })
+  });
+
+// get booked appointments
+  app.get("/api/booked_appt/:id", function(req, res){  
+      db.Appt.findAll({
+        attributes: ["walkDate", "timeSlot", "dogUser", "dogName", "firstName", "lastName"],
+        where: {
+          id: req.params.id,
+          dogUser: {$ne:0}
+        },
+        include:[db.DogActor, db.Dog]
+      });
+    });
+
+
+  // dwid = dogwakerId, wd = walkDate, ts = timeSlot, 
+  // du = dogUser, cncl = true to cancel false to change
+
+  //Cancel an appointment
+  app.put("/api/cancel-walk/:id", function(req,res){
+    // if cncl true, cancel the appointment by setting dogUser = 0
+  //  if(reg.params.cncl){
+      db.Appt.update({
+        dogUser: 0
+      },
+      {
+        where:{
+          id: 0
+        }
+      }).then(function(dbDog){
+        res.json(dbDog);
+      });
+  });
+
+  //Book an appointment
+  app.put("/api/change-walk/:id", function(req,res){
+      db.Appt.update({
+        dogUser: req.body.du
+      },
+      {
+        where: {
+          id: req.params.id  
+        }
+      })
+    }).then(function(dbDog){
+    res.json(dbDog);
+  });
+
+  //Delete a time slot
+  app.delete("/api/deleteSlot/:id", function(req, res) {
+    db.Appt.destroy({
+      where: {
+        id: req.params.id
+      }
+    }).then(results => res.json(results) 
+    );
+  });
+
+  //DOG ROUTES
+  //Create Dog
+  app.post("/api/newDog", (req, res)=>{
+    db.Dog.create({
+      dogName : req.body.name,
+      dogActorId : req.body.dogownerId,
+      breed : req.body.breed,
+      breedUrl:  "https://dog.ceo/api/breed/"+ req.body.breed + "/images/random"
+    }).then (results => res.json(results));
+   });
 };
+
+// Delete a dog
+app.delete("/api/deleteDog/:id", function(req, res) {
+  db.Dog.destroy({
+    where: {
+      id: req.params.id
+    }
+  }).then(results => res.json(results) 
+  );
+});
