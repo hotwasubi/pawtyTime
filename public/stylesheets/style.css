@@ -123,7 +123,7 @@ transition: .4s all;
 /* members page */
 
 #cardFont{
-  font-family: sans-serif;
+  font-family: 'Acme', sans-serif;
 }
 
 #cardContainer{
@@ -134,16 +134,48 @@ transition: .4s all;
   width: 25rem;
   position: absolute;
   right: 0;
+  top:0;
 }
- #floatingBtn{
+#btnContainer{
+  position: relative;
+  font-family: 'Acme', sans-serif;
+}
+ #floatingBtn1{
   border-radius: 10px;
-  height: 80px;
-  width: 80px;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 0; 
+  left: 0;
   }
-
+  #floatingBtn2{
+    border-radius: 10px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 0;
+    left: 200px;
+    
+  }
+  #floatingBtn3{
+    border-radius: 10px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 150px;
+  }
+  #floatingBtn4{
+    border-radius: 10px;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 200px;
+    top: 150px;
+  }
   #icon{
-    margin-top: 10px;
-    font-size: 50px;
+    margin-top: 25px;
+    font-size: 70px;
   }
 
 
