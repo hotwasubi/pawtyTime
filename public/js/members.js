@@ -12,3 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toolbarEnabled: true
   });
 });
+
+$(document).ready(function(){
+  $('.tooltipped').tooltip();
+});
