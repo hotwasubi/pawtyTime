@@ -123,20 +123,51 @@ module.exports = function(app) {
   });
 
 // get booked appointments for dog walker
-// PROBLEM WITH THIS ROUTE -- HOW TO INCLUDE DATA FROM OTHER TABLE
-  app.get("/api/booked_appt/:DogActorId", function(req, res){  
+/*   app.get("/api/booked_appt/:DogActorId", function(req, res){  
       db.Appt.findAll({
-        attributes: ["walkDate", "timeSlot", "dogUser", "dogName", "firstName", "lastName"],
+        attributes: ["walkDate", "timeSlot", "dogUser"],
         where: {
           DogActorId: req.params.DogActorId,
-          dogUser: {$ne:0}
+          dogUser: {$gt:0}
         },
-        include:[DogActor] //How Do I include the other table?
+        include:[{
+          model: db.DogActor,
+          as: "",
+          attributes: ["firstName", "lastName"],
+          where: { 
+            actorType: false
+          },
+          required:false
+        }],
+        include:[{
+          model: db.Dog,
+          attributes: ["dogName"],
+          required:false
+        }]
       }).then(function(dbBooked){
         res.json(dbBooked);
       });
     });
-   
+    */
+
+
+// get booked appointments for dog walker
+// by dogName and date
+   app.get("/api/booked_appt/:DogActorId", function(req, res){  
+    db.Dog.findAll({
+      attributes: ["dogName"],
+      include:[{
+        model:db.Appt,
+        attributes:["walkDate", "timeSlot"],
+        where: {
+          DogActorId: req.params.DogActorId
+        }
+      }]
+    }).then(function(dbBooked){
+      res.json(dbBooked);
+    });  
+   });
+
 
     //Get booked appointments for my dog
     app.get("/api/mydog/:id", function(req, res){  
@@ -170,7 +201,8 @@ module.exports = function(app) {
   app.put("/api/cancel-walk/:id", function(req,res){
     // if cncl true, cancel the appointment by setting dogUser = 0
        db.Appt.update({
-        dogUser: 0
+        dogUser: 0,
+        DogId: 0
       },
       {
         where:{
@@ -186,7 +218,8 @@ module.exports = function(app) {
   //Book an appointment
   app.put("/api/change-walk/:id", function(req,res){
       db.Appt.update({
-        dogUser: req.body.dogUser
+        dogUser: req.body.dogUser,
+        DogId: req.body.dogUser
       },
       {
         where: {
