@@ -73,6 +73,13 @@ body {
   font-family: 'Pacifico', cursive;
 }
 
+#modal2{
+  font-family: 'Fjalla One', sans-serif;
+}
+ #modal1{
+   font-family: 'Fjalla One', sans-serif;
+ }
+
 button{
   font-family: 'Pacifico', cursive;
 }
@@ -135,17 +142,20 @@ transition: .4s all;
   position: absolute;
   right: 0;
 }
- #floatingBtn{
+
+#profile,
+#scheduler,
+#floatingBtn {
   border-radius: 10px;
   height: 80px;
   width: 80px;
   margin-bottom: 40px;
   }
 
-  #icon{
-    margin-top: 10px;
-    font-size: 50px;
-  }
+#icon {
+  margin-top: 10px;
+  font-size: 60px;
+}
 
 
 
