@@ -53,8 +53,10 @@
 
 <!-- login modal -->
 <div id="modal1" class="modal bottom-sheet">
+  <div class="container">
   <div class="modal-content">
-    <h2><i class="fas fa-paw amber-text"></i> Login Form</h2>
+    
+    <h2><i class="fas fa-paw amber-text"></i> Login</h2>
     <form class="login">
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
@@ -68,48 +70,87 @@
     </form>
   </div>
   <div class="modal-footer">
-  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i>Welcome Back!</button></a>
+  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i> Login!</button></a>
   </div>
+</div>
 </div>
 
 <!-- sign up modal -->
 
 <div id="modal2" class="modal bottom-sheet">
+  <div class="container">
   <div class="modal-content">
     <h2><i class="fas fa-paw amber-text"></i> Sign Up</h2>
-    <form class="login">
-      <div class="form-group">
-        <label for="PetName">Pet Name</label>
-        <input type="text" class="form-control" id="email-input" placeholder="Fido">
-      </div>
-      <div class="form-group">
-        <label for="firstName">Full Name</label>
-        <input type="text" class="form-control" id="email-input" placeholder="Alfred Pennyworth">
+    <form class="signUp col s12">
+
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input placeholder="Alfred" id="first_name" type="text" class="validate">
+          <label for="first_name">First Name</label>
+        </div>
+        <div class="input-field col s12 m6">
+          <input placeholder="Pennyworth" id="last_name" type="text" class="validate">
+          <label for="last_name">Last Name</label>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="email-input" placeholder="Email">
-      </div>
-      
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="password-input" placeholder="Password">
-      </div>
+      <div class="row">
+          <div class="input-field col s12 m6">
+            <input id="email" type="email" class="validate">
+            <label for="email">Email</label>
+          </div>
+          <div class="input-field col s12 m6">
+            <input id="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label for="Address">Address</label>
-        <input type="text" class="form-control" id="address-input" placeholder="1600-pennsylvania-avenue">
-        <label for="Address">City</label>
-        <input type="text" class="form-control" id="city-input" placeholder="D.C">
-        <label for="Address">Zip</label>
-        <input type="text" class="form-control" id="zip-input" placeholder="20500">
-      </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="1600 Pennsylvania Ave" id="address1" type="text" class="validate">
+            <label for="address1">Address 1</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="Apt, Unit, Suite, etc." id="address2" type="text" class="validate">
+            <label for="address2">Address 2 - Optional</label>
+            <!-- <span class="helper-text" data-error="wrong" data-success="right">Optional</span> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <input placeholder="Washington, DC" id="city" type="text" class="validate">
+            <label for="city">City</label>
+          </div>
+          <div class="input-field col s12 m6">
+            <input placeholder="20500" id="zipCode" type="text" class="validate">
+            <label for="zipCode">Zip Code</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12 m6">
+            <input placeholder="555-555-5555" id="phoneNumber" type="text" class="validate">
+            <label for="phoneNumber">Phone</label>
+          </div>
+          <div class="input-field col s12 m6">
+            <select id="phoneType">
+              <option value="" disabled selected>Choose your option</option>
+              <option value="mobile">Mobile</option>
+              <option value="landline">Home</option>
+            </select>
+            <label>Phone Type</label>
+          </div>
+        </div>
+  
     </form>
   </div>
   <div class="modal-footer">
-  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i>Join the Pack!</button></a>
+  <a href="./members.html"><button type="submit" class="btn btn-default amber" id="loginBtn"><i class="fas fa-paw"></i> Join the Pack!</button></a>
   </div>
+</div>
 </div>
 
 
