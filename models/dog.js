@@ -12,15 +12,14 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull:true,
             validate:{
-                isURL: true,
-                message: "Must be a valid URL"
+                isURL: true
             }
         }
     });
 
     Dog.associate = function(models){
         Dog.belongsTo(models.DogActor);
-        Dog.hasMany(models.Appt);
+    //    Dog.hasMany(models.Appt);
     };
 
     return Dog;

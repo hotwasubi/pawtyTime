@@ -47,16 +47,16 @@ module.exports = function(app) {
   //fn = firstName, ln = lastName, add1 = address1
   // add2 = address2, cty = city, s =st, 
   // z5 = zip5, ph = phone, pt = phoneType
-  app.put("/api/update-actor/:id", function(req, res){
+  app.put("/api/actor", function(req, res){
     db.dogActor.update({
-      firstName: req.body.fn,
-      lastName: req.body.ln,
-      address1: req.body.add1,
-      address2: req.body.add2,
-      city: req.body.cty,
-      st: req.body.s,
-      zip5: req.body.z5,
-      phone: req.body.pt
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      address1: req.body.address1,
+      address2: req.body.address2,
+      city: req.body.city,
+      st: req.body.st,
+      zip5: req.body.zip5,
+      phone: req.body.phone
     }, 
     {
       where: {
@@ -69,10 +69,10 @@ module.exports = function(app) {
   });
 
   // Delete DogActor
-  app.delete("/api/deleteActor/:userName", function (req,res ){
+  app.delete("/api/actor/:email", function (req,res ){
     db.DogActor.destroy({
       where: {
-        userName: req.params.userName
+        email: req.params.email
       }
     }).then(results => res.json(results)
     );
@@ -83,24 +83,38 @@ module.exports = function(app) {
   // if booked == false, then dogUser == 0
 
     //Create a new open appointment
-  // did = dogwalkerId, wd = walkDate, ts = timeSlot
-  app.post("/api/add-appt/", function(req,res){
+    // New Appts have dogUser = 0
+  app.post("/api/appt", function(req,res){
     db.Appt.create({
-      dogwalkerId: req.body.did,
-      walkDate: req.body.wd,
-      timeSlot: req.body.ts
+      walkDate: req.body.walkDate,
+      timeSlot: req.body.timeSlot,
+      DogActorId : req.body.DogActorId
     }).then(function(dbAppt){
       console.log(dbAppt);
       res.json(dbAppt);
     });
   });
 
-  // Get unbooked appointments
-  app.get("/api/unbooked_appt/:id", function(req, res){
+    //Delete a time slot
+    app.delete("/api/appt/:id", function(req, res) {
+      db.Appt.destroy({
+        where: {
+          id: req.params.id
+        }
+      }).then(results => {
+        console.log(results);
+        res.json(results);
+      } 
+      );
+    });
+  
+
+  // Get unbooked appointments for dog walker
+  app.get("/api/unbooked_appt/:DogActorId", function(req, res){
       db.Appt.findAll({
         attributes:["walkDate", "timeSlot"],
         where: {
-          id: req.params.id,
+          DogActorId: req.params.DogActorId,
           dogUser: 0
         }
       }).then(function(dbUnbooked){
@@ -108,15 +122,43 @@ module.exports = function(app) {
       });
   });
 
-// get booked appointments
-  app.get("/api/booked_appt/:id", function(req, res){  
+// get booked appointments for dog walker
+// PROBLEM WITH THIS ROUTE -- HOW TO INCLUDE DATA FROM OTHER TABLE
+  app.get("/api/booked_appt/:DogActorId", function(req, res){  
       db.Appt.findAll({
         attributes: ["walkDate", "timeSlot", "dogUser", "dogName", "firstName", "lastName"],
         where: {
-          id: req.params.id,
+          DogActorId: req.params.DogActorId,
           dogUser: {$ne:0}
         },
-        include:[db.DogActor, db.Dog]
+        include:[DogActor] //How Do I include the other table?
+      }).then(function(dbBooked){
+        res.json(dbBooked);
+      });
+    });
+   
+
+    //Get booked appointments for my dog
+    app.get("/api/mydog/:id", function(req, res){  
+      db.Appt.findAll({
+        attributes: ["walkDate", "timeSlot", "DogActorId"],
+        where: {
+          dogUser: req.params.id
+        }
+      }).then(function(myAppt){
+        res.json(myAppt)
+      });
+    });
+
+    //Get any open appointment
+    app.get("/api/appt", function(req, res){  
+      db.Appt.findAll({
+        attributes: ["walkDate", "timeSlot", "DogActorId"],
+        where: {
+          dogUser: 0
+        }
+      }).then(function(openAppt){
+        res.json(openAppt);
       });
     });
 
@@ -127,23 +169,24 @@ module.exports = function(app) {
   //Cancel an appointment
   app.put("/api/cancel-walk/:id", function(req,res){
     // if cncl true, cancel the appointment by setting dogUser = 0
-  //  if(reg.params.cncl){
-      db.Appt.update({
+       db.Appt.update({
         dogUser: 0
       },
       {
         where:{
-          id: 0
+          id: req.params.id
         }
       }).then(function(dbDog){
         res.json(dbDog);
       });
   });
 
+     
+
   //Book an appointment
   app.put("/api/change-walk/:id", function(req,res){
       db.Appt.update({
-        dogUser: req.body.du
+        dogUser: req.body.dogUser
       },
       {
         where: {
@@ -154,34 +197,27 @@ module.exports = function(app) {
     });
   });
 
-  //Delete a time slot
-  app.delete("/api/deleteSlot/:id", function(req, res) {
-    db.Appt.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(results => res.json(results) 
-    );
-  });
 
   //DOG ROUTES
   //Create Dog
-  app.post("/api/newDog", (req, res)=>{
+  app.post("/api/dog", (req, res)=>{
     db.Dog.create({
-      dogName : req.body.name,
-      dogActorId : req.body.dogownerId,
+      dogName : req.body.dogName,
+      DogActorId : req.body.DogActorId,
       breed : req.body.breed,
-      breedUrl:  "https://dog.ceo/api/breed/"+ req.body.breed + "/images/random"
+      breedUrl:  "https://dog.ceo/api/breed/"+ req.body.breed + "/images"
     }).then (results => res.json(results));
    });
 
    // Delete a dog
-  app.delete("/api/deleteDog/:id", function(req, res) {
+   app.delete("/api/dog/:id", (req, res) => {
+    const id = req.params.id;
     db.Dog.destroy({
-      where: {
-        id: req.params.id
-      }
-    }).then(results => res.json(results) 
-    );
+      where: {id: id}
+    })
+      .then(results => {
+      console.log(results);
+      res.json(results);
+    });
   });
 };
