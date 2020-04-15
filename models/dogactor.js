@@ -1,11 +1,11 @@
 // Requiring bcrypt for password hashing. Using the bcryptjs version as the regular bcrypt module sometimes causes errors on Windows machines
 var bcrypt = require("bcryptjs");
 // Creating our DogActor model which can be either a walker or an 
-//owner.  Owner has actortype: true and Walker has actortype: false
+//owner.  Owner has actorType: true and Walker has actorType: false
 module.exports = function(sequelize, DataTypes) {
   var DogActor = sequelize.define("DogActor", {
     // The email cannot be null, and must be a proper email before creation
-    username: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -14,17 +14,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     // The password cannot be null
-    pw: {
+    password: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    actortype :{
+    actorType :{
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
@@ -55,8 +49,7 @@ module.exports = function(sequelize, DataTypes) {
     phone: {
       type: DataTypes.STRING,
       validate: {
-        is: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/i,
-        message: "Must be a valid telephone number"
+        is: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/i
       }
     },
     phoneType: {
@@ -69,29 +62,26 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: 5,
         isInt : true
-      },
+      }
+    },
       lat:{
         type: DataTypes.DECIMAL(10,3),
         allowNull: true
       },
       lng: {
         type: DataTypes.DECIMAL(10,3),
-        allowNull: false
-      },
-
-      
-    }
+        allowNull: true
+      }
   });
 
   DogActor.associate = function(models) {
     //dogowners can have many dogs
-    DogActor.hasMany(models.Dog), {
+    DogActor.hasMany(models.Dog, {
       onDelete: "cascade"
-    },
-    DogActor.hasMany(models.Appt), {
+    });
+    DogActor.hasMany(models.Appt, {
       onDelete: "cascade"
-    }
-
+    });
   };
   // Creating a custom method for our DogActor model. This will check if an unhashed password entered by the actor can be compared to the hashed password stored in our database
   DogActor.prototype.validPassword = function(password) {

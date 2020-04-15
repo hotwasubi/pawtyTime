@@ -1,15 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
     var Appt = sequelize.define("Appt", {
-        id:{
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        dogwalkerId:{
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         walkDate: {
             type: DataTypes.DATEONLY,
             allowNull: false
@@ -19,21 +9,20 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
         },
         dogUser:{
-            type: DataTypes.INT,
-            allowNull: false,
-            default: 0
-        },
+            type: DataTypes.INTEGER,
+            defaultValue: 0
 
+        }/* ,
         indexes: [
             {
-                fields: ["dogwalkerId", "walkDate", "timeSlot"]
+                fields: ["walkDate", "timeSlot"]
             }
-        ]
+        ] */
     });
 
     Appt.associate = function(models){
-        Appt.belongsTo(models.Dog),
-        Appt.belongsTo(models.dogactor)
+        Appt.belongsTo(models.Dog); //DogId
+        Appt.belongsTo(models.DogActor); //DogActorId
     };
     return Appt;
 }
