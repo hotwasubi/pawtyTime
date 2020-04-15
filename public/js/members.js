@@ -5,3 +5,14 @@ $(document).ready(function() {
     $(".member-name").text(data.email);
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.fixed-action-btn');
+  var instances = M.FloatingActionButton.init(elems, {
+    toolbarEnabled: true
+  });
+});
+
+$(document).ready(function(){
+  $('.tooltipped').tooltip();
+});
