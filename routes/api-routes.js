@@ -84,6 +84,19 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/api/get_actor/:email", (req, res) =>{
+    db.DogActor.findOne({
+      attributes:["id"],
+      where:{
+        email: req.params.email
+      }
+    }).then(function(user){
+      res.json(user)
+    }).catch(err=>{
+      res.status(401).json(err)
+    });
+  });
+
   // Delete DogActor
   app.delete("/api/actor/:email", function (req,res ){
     db.DogActor.destroy({
