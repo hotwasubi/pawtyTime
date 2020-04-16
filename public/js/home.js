@@ -82,7 +82,7 @@ $(document).ready(function(){
       return;
     }
 
-    userLogin(userData.email, userData.password);
+    userLogin(userInfo.email, userInfo.password);
     emailInput.val("");
     passwordInput.val("");
     });
