@@ -30,7 +30,7 @@ module.exports = function(app) {
       phoneType: req.body.phoneType
     })
       .then(function() {
-        res.redirect(307, "/api/login");
+        res.status(200).end();
       })
       .catch(function(err) {
         res.status(401).json(err);
