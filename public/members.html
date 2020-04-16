@@ -13,6 +13,8 @@
 </head>
 
 <body>
+
+  <!-- open animation -->
   <div class="vov fade-out t-2">
     <svg id="svg-sprite" >
       <symbol id="paw" viewBox="0 0 249 209.32">
@@ -52,44 +54,81 @@
     <div class="col s4 "><a id="scheduler" class="btn-floating btn-large waves-effect waves-light red floatingBtn tooltipped" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
     <label for=""></label>
 <!-- button 2 -->
-    <div class="col s4 "><a id="profile" class="btn-floating btn-large waves-effect waves-light amber floatingBtn tooltipped" data-position="bottom" data-tooltip="Profile"><i id="icon" class="large material-icons">person</i></a></div>
+    <div class="col s4 "><a id="profile" href="#modalProfile" class="btn-floating btn-large waves-effect waves-light amber floatingBtn tooltipped modal-trigger" data-position="bottom" data-tooltip="Profile"><i id="icon" class="large material-icons">person</i></a></div>
 </div>
   
 <!-- button 3 -->
 <div class="row">
-    <div class="col s4 "><a id="floatingBtn" class="btn-floating btn-large waves-effect waves-light green floatingBtn tooltipped" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
+    <div class="col s4 "><a id="addPet" href="#modalAddPet" class="btn-floating btn-large waves-effect waves-light green floatingBtn tooltipped modal-trigger" data-position="bottom" data-tooltip="Add a Pet"><i id="icon" class="large fas fa-dog"></i></a></div>
 <!-- button 4 -->
 
     <div class="col s4 " ><a id="floatingBtn" class="btn-floating btn-large waves-effect waves-light black floatingBtn tooltipped" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
 </div>
 </div>
 <div class="col m6 s12 pull-s2">
-  <div class="col right" id="cardContainer">
-    <div id="card" class="card medium blue-grey darken-1">
-      <div id="cardFont" class="card-content white-text">
-        <span class="card-title">Upcoming Walks</span>
-        <p>I am a very simple card. I am good at containing small bits of information.
-        I am convenient because I require little markup to use effectively.</p>
-      </div>
-      <div class="card-action">
-        
-      </div>
+  <!-- upcomming appointments -->
+  <ul class="collection with-header" id="appointments">
+    <li class="collection-header"><h4>Upcoming Appointments</h4></li>
+    <li class="collection-item" id="defaultMessage">You have no upcoming appointments!</li>
+
+  </ul>
     </div>
   </div>
 
 </div>
   
-</div>
-</div>
 
-
-<div  class="container">
-  
-  <div class="row">
-
+<!-- modal for adding and removing pets to db -->
+<div id="modalAddPet" class="modal">
+  <div class="modal-content">
+    <h4>Add your pet!</h4>
+    <p>Add your pets here that you would like to get walked.</p>
+    <div class="row">
+      <div class="col">
+        <img src="" alt="">
+      </div>
     </div>
-  
-    <div class="col s5 pull-s7"><span class="flow-text"></span></div>
+    <div class="row" id="petForm">
+      <div class="input-field col s4">
+        <input placeholder="Spartacus" id="dog_name" type="text" class="validate">
+        <label for="dog_name">Pet Name</label>
+      </div>
+      <div class="input-field col s12 m4">
+        <input placeholder="Yorkshire Terrier" id="breed" type="text" class="autocomplete">
+        <label for="breed">Breed</label>
+      </div>
+      <div class="col s12 m4 pull-s1">
+      <button class="btn btn-default amber right" id="addPetBtn">Add Pet
+        <i class="material-icons right">send</i>
+      </button>
+      </div>
+    </div>
+    <div class="row" >
+      <ul class="collection" id="petList">
+       <li class="collection-item"><a class="secondary-content"><i class="material-icons green-text">edit</i></a><a class="secondary-content"><i class="material-icons red-text">delete_forever</i></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">close</a>
+  </div>
+</div>
+
+
+<!-- modal for viewing Profile -->
+<div id="modalProfile" class="modal">
+  <div class="modal-content">
+    <h4>Profile</h4>
+    <ul class="collection">
+      <li class="collection-item">Name: <div id="firstn=Nam"></div><div id="lastNam"></div></li>
+      <li class="collection-item">Address: <div id="add1"></div><br><div id="add2"></div><br><div id="cit"></div> <div id="st"></div> <div id="zip"></div></li>
+      <li class="collection-item">Email: <div id="profEmail"></div></li>
+      <li class="collection-item">Phone: <div id="profPhone"></div></li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
 </div>
 
 
@@ -98,7 +137,7 @@
 
 
 
-</div>
+
 
 
 
@@ -114,8 +153,8 @@
       <i class="large material-icons">pets</i>
     </a>
     <ul>
-      <li><a href="./home.html" class="btn-floating amber tooltipped" data-position="top" data-tooltip="Logout"><i class="material-icons">exit_to_app</i></a></li>
-      <li><a href="./members.html"class="btn-floating amber tooltipped" data-position="top" data-tooltip="Member Page"><i class="material-icons">account_box</i></a></li> 
+      <li><a href="./home" class="btn-floating amber tooltipped" data-position="top" data-tooltip="Logout"><i class="material-icons">exit_to_app</i></a></li>
+      <li><a href="./members"class="btn-floating amber tooltipped" data-position="top" data-tooltip="Member Page"><i class="material-icons">account_box</i></a></li> 
       <li><a href="./scheduler.html"class="btn-floating amber tooltipped" data-position="top" data-tooltip="Schedule a Walk"><i class="material-icons">event</i></a></li>
     </ul>
   </div>

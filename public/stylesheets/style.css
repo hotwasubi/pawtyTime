@@ -68,14 +68,17 @@ form.login {
 }
 
 /* Home page */
+
 body {
   background-image: linear-gradient(to left, #26c6da, white);
   font-family: 'Pacifico', cursive;
 }
 
-#modal2{
-  font-family: 'Fjalla One', sans-serif;
-}
+#appointments,
+#modalProfile,
+#modalAddPet,
+#modal3,
+#modal2,
  #modal1{
    font-family: 'Fjalla One', sans-serif;
  }
@@ -109,7 +112,7 @@ button{
   transition: .5s all;
 }
 
-
+#addPetBtn,
 #loginBtn{
   border-radius: 25px;
   color: black;
@@ -144,6 +147,7 @@ transition: .4s all;
 }
 
 #profile,
+#addPet,
 #scheduler,
 #floatingBtn {
   border-radius: 10px;

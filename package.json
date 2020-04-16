@@ -16,14 +16,15 @@
   "dependencies": {
     "bcryptjs": "2.4.3",
     "dotenv": "^8.2.0",
-    "express": "^4.17.0",
+    "express": "^4.17.1",
     "express-session": "^1.16.1",
-    "mysql2": "^1.6.5",
+    "mysql2": "^1.7.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^5.8.6"
+    "sequelize": "^5.21.6"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "cross-env": "^5.2.0",

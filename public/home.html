@@ -44,6 +44,17 @@
   </div>
   <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a> -->
 </div>
+
+<div id="modal3" class="modal">
+  <div class="modal-content">
+    <h4>Success!</h4>
+    <p>You have successfully signed up. Please login with your email and password.</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#modal1" class="modal-close modal-trigger waves-effect waves-green btn amber"><i class="fas fa-paw"></i> Login</a>
+  </div>
+</div>
+
 <!-- login modal -->
 <div id="modal1" class="modal bottom-sheet">
   <div class="container">
@@ -126,6 +137,7 @@
           </div>
           <div class="input-field col s12 m3">
             <select id="state">
+              <option value="" disabled selected>Select State</option>
               <option value="AL">AL</option>
               <option value="AR">AR</option>
               <option value="AS">AS</option>
@@ -211,7 +223,7 @@
       </div>
   </div>
   <div class="modal-footer">
- <button type="submit" class="btn btn-default amber" id="signUpBtn"><i class="fas fa-paw"></i> Join the Pack!</button>
+ <button type="submit" href="#modal3" class="btn btn-default amber modal-trigger modal-close" id="signUpBtn"><i class="fas fa-paw"></i> Join the Pack!</button>
   </div>
 </div>
 </div>
