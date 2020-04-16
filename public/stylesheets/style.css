@@ -75,6 +75,7 @@ body {
 }
 
 #appointments,
+#modalAddPet,
 #modal3,
 #modal2,
  #modal1{
@@ -110,7 +111,7 @@ button{
   transition: .5s all;
 }
 
-
+#addPetBtn,
 #loginBtn{
   border-radius: 25px;
   color: black;
@@ -145,8 +146,8 @@ transition: .4s all;
 }
 
 #profile,
-#scheduler,
 #addPet,
+#scheduler,
 #floatingBtn {
   border-radius: 10px;
   height: 80px;

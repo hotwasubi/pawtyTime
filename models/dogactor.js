@@ -1,6 +1,6 @@
 // Requiring bcrypt for password hashing. Using the bcryptjs version as the regular bcrypt module sometimes causes errors on Windows machines
 var bcrypt = require("bcryptjs");
-// Creating our DogActor model which can be either a walker or an 
+// Creating our DogActor model which can be either a walker or an
 //owner.  Owner has actorType: true and Walker has actorType: false
 module.exports = function(sequelize, DataTypes) {
   var DogActor = sequelize.define("DogActor", {
@@ -18,17 +18,17 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    actorType :{
+    actorType: {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    firstName:{
+    firstName: {
       type: DataTypes.STRING,
-      allowNull:false
+      allowNull: false
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     address1: {
       type: DataTypes.STRING,
@@ -43,7 +43,65 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     st: {
-      type: DataTypes.ENUM("AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"),
+      type: DataTypes.ENUM(
+        "AK",
+        "AL",
+        "AR",
+        "AS",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "FL",
+        "GA",
+        "GU",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MP",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "PR",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UM",
+        "UT",
+        "VA",
+        "VI",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ),
       allowNull: false
     },
     phone: {
@@ -56,22 +114,22 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.ENUM("landline", "mobile"),
       allowNull: false
     },
-    zip5:{
+    zip5: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: 5,
-        isInt : true
+        isInt: true
       }
     },
-      lat:{
-        type: DataTypes.DECIMAL(10,3),
-        allowNull: true
-      },
-      lng: {
-        type: DataTypes.DECIMAL(10,3),
-        allowNull: true
-      }
+    lat: {
+      type: DataTypes.DECIMAL(10, 3),
+      allowNull: true
+    },
+    lng: {
+      type: DataTypes.DECIMAL(10, 3),
+      allowNull: true
+    }
   });
 
   DogActor.associate = function(models) {
@@ -90,7 +148,11 @@ module.exports = function(sequelize, DataTypes) {
   // Hooks are automatic methods that run during various phases of the DogActor Model lifecycle
   // In this case, before a DogActor is created, we will automatically hash their password
   DogActor.addHook("beforeCreate", function(actor) {
-    actor.password = bcrypt.hashSync(actor.password, bcrypt.genSaltSync(10), null);
+    actor.password = bcrypt.hashSync(
+      actor.password,
+      bcrypt.genSaltSync(10),
+      null
+    );
   });
   return DogActor;
 };

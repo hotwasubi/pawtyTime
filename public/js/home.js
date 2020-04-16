@@ -53,7 +53,8 @@ $(document).ready(function(){
       lng: 0
     }
     console.log(newUser);
-
+    
+    
     $.ajax({
       url: "api/signup",
       type: "POST",
