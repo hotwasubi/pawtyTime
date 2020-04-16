@@ -19,10 +19,11 @@ $(document).ready(function(){
   $('.modal').modal();
   $('select').formSelect();
 
-  
+
 // sign up
-  $("#signUpBtn").on("click", event => {
+  $("#signUpBtn").on("click", function() {
     event.preventDefault();
+    
     const firstName = $("#first_name").val().trim();
     const lastName = $("#last_name").val().trim();
     const email = $("#email").val().trim();
