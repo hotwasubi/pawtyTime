@@ -65,7 +65,23 @@ module.exports = function(app) {
     }).then(function(dbAppt){
       console.log(res.json(dbAppt));
       res.json(dbAppt);
-    })
+    }).catch(err => {
+      res.status(401).json(err)
+    });
+  });
+
+  //Get DogActor Name and Address by id
+  app.get("/api/actor/:id", (req, res)=>{
+    db.DogActor.findOne({
+      attributes:["id", "firstName", "lastName", "address1", "address2", "city", "st", "zip5", "phone", "email"],
+      where:{
+        id:req.params.id
+      }
+    }).then(function(actor){
+      res.json(actor)
+    }).catch(err => {
+      res.status(401).json(err)
+    });
   });
 
   // Delete DogActor
@@ -75,7 +91,9 @@ module.exports = function(app) {
         email: req.params.email
       }
     }).then(results => res.json(results)
-    );
+    ).catch(err => {
+      res.status(401).json(err)
+    });
   });
 
   //APPOINTMENT ROUTES
@@ -92,6 +110,8 @@ module.exports = function(app) {
     }).then(function(dbAppt){
       console.log(dbAppt);
       res.json(dbAppt);
+    }).catch(err => {
+      res.status(401).json(err)
     });
   });
 
@@ -104,51 +124,27 @@ module.exports = function(app) {
       }).then(results => {
         console.log(results);
         res.json(results);
-      } 
-      );
+      }).catch(err => {
+        res.status(401).json(err)
+      });
     });
   
 
   // Get unbooked appointments for dog walker
   app.get("/api/unbooked_appt/:DogActorId", function(req, res){
       db.Appt.findAll({
-        attributes:["walkDate", "timeSlot"],
+        attributes:["id", "walkDate", "timeSlot"],
         where: {
           DogActorId: req.params.DogActorId,
           dogUser: 0
         }
       }).then(function(dbUnbooked){
         res.json(dbUnbooked)
+      }).catch(err => {
+        res.status(401).json(err)
       });
   });
 
-// get booked appointments for dog walker
-/*   app.get("/api/booked_appt/:DogActorId", function(req, res){  
-      db.Appt.findAll({
-        attributes: ["walkDate", "timeSlot", "dogUser"],
-        where: {
-          DogActorId: req.params.DogActorId,
-          dogUser: {$gt:0}
-        },
-        include:[{
-          model: db.DogActor,
-          as: "",
-          attributes: ["firstName", "lastName"],
-          where: { 
-            actorType: false
-          },
-          required:false
-        }],
-        include:[{
-          model: db.Dog,
-          attributes: ["dogName"],
-          required:false
-        }]
-      }).then(function(dbBooked){
-        res.json(dbBooked);
-      });
-    });
-    */
 
 
 // get booked appointments for dog walker
@@ -158,38 +154,45 @@ module.exports = function(app) {
       attributes: ["dogName"],
       include:[{
         model:db.Appt,
-        attributes:["walkDate", "timeSlot"],
+        attributes:["id", "walkDate", "timeSlot"],
         where: {
           DogActorId: req.params.DogActorId
         }
       }]
     }).then(function(dbBooked){
       res.json(dbBooked);
+    }).catch(err => {
+      res.status(401).json(err)
     });  
    });
-
 
     //Get booked appointments for my dog
     app.get("/api/mydog/:id", function(req, res){  
       db.Appt.findAll({
-        attributes: ["walkDate", "timeSlot", "DogActorId"],
-        where: {
-          dogUser: req.params.id
-        }
+        attributes: ["id", "walkDate", "timeSlot", "DogActorId"],
+        include:[{
+          model:db.Dog,
+          attributes: ["dogName", "DogActorId"],
+          where:{dogActorId:req.params.id}
+        }]
       }).then(function(myAppt){
         res.json(myAppt)
+      }).catch(err => {
+        res.status(401).json(err)
       });
     });
 
     //Get any open appointment
     app.get("/api/appt", function(req, res){  
       db.Appt.findAll({
-        attributes: ["walkDate", "timeSlot", "DogActorId"],
+        attributes: ["id", "walkDate", "timeSlot", "DogActorId"],
         where: {
           dogUser: 0
         }
       }).then(function(openAppt){
         res.json(openAppt);
+      }).catch(err => {
+        res.status(401).json(err)
       });
     });
 
@@ -210,6 +213,8 @@ module.exports = function(app) {
         }
       }).then(function(dbDog){
         res.json(dbDog);
+      }).catch(err => {
+        res.status(401).json(err)
       });
   });
 
@@ -227,6 +232,8 @@ module.exports = function(app) {
         }
       }).then(function(dbDog){
         res.json(dbDog);
+    }).catch(err => {
+      res.status(401).json(err)
     });
   });
 
@@ -239,7 +246,25 @@ module.exports = function(app) {
       DogActorId : req.body.DogActorId,
       breed : req.body.breed,
       breedUrl:  "https://dog.ceo/api/breed/"+ req.body.breed + "/images"
-    }).then (results => res.json(results));
+    }).then(results => res.json(results))
+      .catch(err => {
+      res.status(401).json(err)
+    });
+  });
+
+   //get dogs by owner id
+  app.get("/api/dog/:id", (req, res)=>{
+    db.Dog
+    .findAll({
+        where: {
+        DogActorId: req.params.id
+        }
+      })
+    .then(function(openAppt){
+      res.json(openAppt);
+    }).catch(err => {
+      res.status(401).json(err)
+    });
    });
 
    // Delete a dog
@@ -251,6 +276,8 @@ module.exports = function(app) {
       .then(results => {
       console.log(results);
       res.json(results);
+    }).catch(err => {
+      res.status(401).json(err)
     });
   });
 };
