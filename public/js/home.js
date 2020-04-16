@@ -39,12 +39,13 @@ $(document).ready(function(){
       lng: 0
     }
     console.log(newUser);
-    $.ajax("/api/signup", {
+    $.ajax({
+      url: "api/signup",
       type: "POST",
       data: newUser
-    }).then(
-      function(res){
+     }).then(
+      function(){
       console.log(res)
-    })
+     })
   })
 });
