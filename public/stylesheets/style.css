@@ -112,11 +112,13 @@ button{
   transition: .5s all;
 }
 
+
 #addPetBtn,
 #loginBtn{
   border-radius: 25px;
   color: black;
 }
+
 #loginBtn:hover{
   opacity: 0.5;
 }
