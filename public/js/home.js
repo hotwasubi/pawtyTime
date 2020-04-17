@@ -26,7 +26,7 @@ $(document).ready(function(){
     
     const firstName = $("#first_name").val().trim();
     const lastName = $("#last_name").val().trim();
-    const email = $("#email").val().trim();
+    var email = $("#email").val().trim();
     const password = $("#password").val().trim();
     const address1 = $("#address1").val().trim();
     const address2 = $("#address2").val().trim();

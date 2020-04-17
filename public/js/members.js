@@ -48,23 +48,22 @@ $(document).ready(function() {
   //add pet button to post new dog info to db
   $("#addPetBtn").on("click", function(event) {
     event.preventDefault();
-    const dogOwner = $(this).data(id);
 
     const dogName = $("#dog_name");
     const breed = $("#breed");
 
-    const newDog = {
-      dogName: dogName.val().trim(),
-      breed: breed.val().trim(),
-      DogActorId: dogOwner.val().trim(),
-    };
-    console.log(newDog);
-    console.log(dogOwner);
-
-    $.post("/api/dog", newDog).then(function(result) {
-      console.log(result);
-      dogName.val("");
-      breed.val("");
+    $.get("/api/get_actor/"+ email).then(function(result){
+      const newDog = {
+        dogName: dogName.val().trim(),
+        breed: breed.val().trim(),
+        id: result.id
+      };
+      console.log(newDog);
+      $.post("/api/dog", newDog).then(function(result) {
+        console.log(result);
+        dogName.val("");
+        breed.val("");
+      });
     });
   });
 
