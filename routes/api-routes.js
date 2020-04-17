@@ -70,7 +70,8 @@ module.exports = function(app) {
     });
   });
 
-   // Route for getting some data about our user to be used client side
+   // Route for getting id, email, and actorType 
+   // about our user to be used client side
    app.get("/api/user_data", function(req, res) {
     if (!req.user) {
       // The user is not logged in, send back an empty object
@@ -79,6 +80,8 @@ module.exports = function(app) {
       // Otherwise send back the user's email and id
       // Sending back a password, even a hashed password, isn't a good idea
       res.json({
+        id: req.user.id,
+        actorType: req.user.actorType,
         email: req.user.email
       });
     }
@@ -152,7 +155,7 @@ module.exports = function(app) {
         console.log(results);
         res.json(results);
       }).catch(err => {
-        res.status(401).json(err)
+        res.status(401).json(err);
       });
     });
   
@@ -230,35 +233,35 @@ module.exports = function(app) {
   //Cancel an appointment
   app.put("/api/cancel-walk/:id", function(req,res){
     // if cncl true, cancel the appointment by setting dogUser = 0
-       db.Appt.update({
-        dogUser: 0,
-        DogId: 0
-      },
-      {
-        where:{
-          id: req.params.id
-        }
-      }).then(function(dbDog){
-        res.json(dbDog);
-      }).catch(err => {
-        res.status(401).json(err)
-      });
+      db.Appt.update({
+      dogUser: 0,
+      DogId: 0
+    },
+    {
+      where:{
+        id: req.params.id
+      }
+    }).then(function(dbDog){
+      res.json(dbDog);
+    }).catch(err => {
+      res.status(401).json(err)
+    });
   });
 
      
 
   //Book an appointment
   app.put("/api/change-walk/:id", function(req,res){
-      db.Appt.update({
-        dogUser: req.body.dogUser,
-        DogId: req.body.dogUser
-      },
-      {
-        where: {
-          id: req.params.id  
-        }
-      }).then(function(dbDog){
-        res.json(dbDog);
+    db.Appt.update({
+      dogUser: req.body.dogUser,
+      DogId: req.body.dogUser
+    },
+    {
+      where: {
+        id: req.params.id  
+      }
+    }).then(function(dbDog){
+      res.json(dbDog);
     }).catch(err => {
       res.status(401).json(err)
     });
@@ -295,7 +298,7 @@ module.exports = function(app) {
    });
 
    // Delete a dog
-   app.delete("/api/dog/:id", (req, res) => {
+  app.delete("/api/dog/:id", (req, res) => {
     const id = req.params.id;
     db.Dog.destroy({
       where: {id: id}
