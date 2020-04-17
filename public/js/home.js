@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toolbarEnabled: true
   });
 });
+
 $(document).ready(function(){
   function normalize(phone) {
     phone = phone.replace(/[^\d]/g, "");
@@ -16,6 +17,8 @@ $(document).ready(function(){
 
     return null;
 }
+
+
   $('.modal').modal();
   $('select').formSelect();
 
