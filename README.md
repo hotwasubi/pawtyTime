@@ -22,34 +22,33 @@ npm i passport, express, mysql2, dotenv, passport-local, passport-startegy
 Additionally, must run on chrome, with file structure as follows:
 root
     config
-      middleware
-        isAuthenticated.js
-      config.js
-      passport.js
+        middleware
+            isAuthenticated.js
+    config.js
+        passport.js
     models
-      .eslintignore
-      appt.js
-      dog.js
-      dogactor.js
-      index.js
+        .eslintignore
+        appt.js
+        dog.js
+        dogactor.js
+        index.js
     public
-      js
-        home.js
-        login.js
-        members.js
-        signup.js
+        js
+            home.js
+            login.js
+            members.js
+            signup.js
         stylesheets
-          style.css
+            style.css
         home.html
         login.html
         members.html
         scheduler.html
         signup.html
     routes
-      api-routes.js
-      html-routes.js
-    server.js
-    
+        api-routes.js
+        html-routes.js
+        server.js
 
 ## Usage <a name="usage"></a>
 Getting your dog walked should be easy.  Dog owners and dog walkers will find this application a convenient way to schedule excercise for their dog
@@ -59,15 +58,15 @@ None.
 
 ## Contributing <a name="contributing"></a>
 This application was built by
+Anthony Colindres
+Gary Llil
 Robert Moel
 Asghar Sheikh
-Gary Llil
-Anthony Colindres
         
 ## Tests <a name = "tests"></a>
 
 ```
-none
+Postman to verify and validate routes
 
 ```
 
