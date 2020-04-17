@@ -12,12 +12,14 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             defaultValue: 0
 
-        }/* ,
-        indexes: [
-            {
-                fields: ["walkDate", "timeSlot"]
-            }
-        ] */
+        },
+        walkMemo:{
+            type:DataTypes.STRING,
+            allowNull:true,
+            defaultValue: "Put note here"
+
+        }
+
     });
 
     Appt.associate = function(models){
