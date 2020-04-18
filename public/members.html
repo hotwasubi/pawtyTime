@@ -51,7 +51,7 @@
   <div class="row">
   <!-- button 1 -->
     
-    <div class="col s4 "><a id="scheduler" class="btn-floating btn-large waves-effect waves-light red floatingBtn tooltipped" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
+    <div class="col s4 "><a id="scheduler" href="#scheduleModal" class="btn-floating btn-large waves-effect waves-light red floatingBtn tooltipped modal-trigger" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
     <label for=""></label>
 <!-- button 2 -->
     <div class="col s4 "><a id="profile" href="#modalProfile" class="btn-floating btn-large waves-effect waves-light amber floatingBtn tooltipped modal-trigger" data-position="bottom" data-tooltip="Profile"><i id="icon" class="large material-icons">person</i></a></div>
@@ -62,7 +62,7 @@
     <div class="col s4 "><a id="addPet" href="#modalAddPet" class="btn-floating btn-large waves-effect waves-light green floatingBtn tooltipped modal-trigger" data-position="bottom" data-tooltip="Add a Pet"><i id="icon" class="large fas fa-dog"></i></a></div>
 <!-- button 4 -->
 
-    <div class="col s4 " ><a id="floatingBtn" class="btn-floating btn-large waves-effect waves-light black floatingBtn tooltipped" data-position="bottom" data-tooltip="Schedule a Walk"><i id="icon" class="large material-icons">event</i></a></div>
+    <div class="col s4 " ><a id="floatingBtn" class="btn-floating btn-large waves-effect waves-light black floatingBtn tooltipped" data-position="bottom" data-tooltip="Become a Dog Walker"><i id="icon" class="large material-icons">directions_walk</i></a></div>
 </div>
 </div>
 <div class="col m6 s12 pull-s2">
@@ -132,7 +132,18 @@
 </div>
 
 
-
+<div id="scheduleModal" class="modal">
+  <div  class="modal-content">
+    <ul id="apptList">
+      <!-- list of schedule -->
+    </ul>
+  </div>
+        <div class="modal-footer">
+          <button class="btn btn-default amber right" id="addSchedBtn">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+</div>
 
 
 
@@ -153,9 +164,9 @@
       <i class="large material-icons">pets</i>
     </a>
     <ul>
-      <li><a href="/logout" class="btn-floating amber tooltipped" data-position="top" data-tooltip="Logout"><i class="material-icons">exit_to_app</i></a></li>
       <li><a href="/members"class="btn-floating amber tooltipped" data-position="top" data-tooltip="Member Page"><i class="material-icons">account_box</i></a></li> 
-      <li><a href="/scheduler"class="btn-floating amber tooltipped" data-position="top" data-tooltip="Schedule a Walk"><i class="material-icons">event</i></a></li>
+      <li><a href="mailto:someone@example.com?Subject=Hello%20again" class="btn-floating amber tooltipped" data-position="top" data-tooltip="Contact Us"><i class="material-icons">mail</i></a></li>
+      <li><a href="/logout" class="btn-floating amber tooltipped" data-position="top" data-tooltip="Logout"><i class="material-icons">exit_to_app</i></a></li>
     </ul>
   </div>
 
