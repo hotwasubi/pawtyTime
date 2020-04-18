@@ -37,6 +37,24 @@ module.exports = function(app) {
       });
   });
 
+   // Route for getting id, email, and actorType 
+   // about our user to be used client side
+   app.get("/api/user_data", function(req, res) {
+    if (!req.user) {
+      // The user is not logged in, send back an empty object
+      res.json({});
+    } else {
+      // Otherwise send back the user's email and id
+      // Sending back a password, even a hashed password, isn't a good idea
+      res.json({
+        id: req.user.id,
+        actorType: req.user.actorType,
+        email: req.user.email
+      });
+    }
+  });
+
+
   // Route for logging dogactor out
   app.get("/logout", function(req, res) {
     req.logout();
