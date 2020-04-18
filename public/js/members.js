@@ -7,8 +7,49 @@ $(document).ready(function() {
 
 
   $.get("/api/user_data").then(function(user) { 
-    console.log(user);
+    
+//add schedule to scheduler
 
+$.ajax({
+  url: "/api/appt",
+  method: "GET"
+}).then(function(response){
+   let idnt = 0;
+   let tm = "00:00:00";
+   let dt = "2020-01-01"
+   let wM = "";
+   let html1 = "";
+  $('#apptList').html(html1);
+  const apptLine = `<li><div id=${idnt}tb class="row">
+  <div class="col s2">${idnt}</div>
+  <div class="col s2 hour">${tm}</div>
+  <div class="col 1s date">${dt}</div>
+  <label>
+    <input type="checkbox" value="${idnt}" />
+    <span>Schedule</span>
+  </label>
+  <div class="col s12 input-display">
+    <div class="input-container">
+      <input type="text" placeholder="${wM}" class="walkMemo">
+      <i class="material-icons">create</i>
+    </div>
+  </div>
+</div></li>`
+
+for (i = 0; i < response.length; i++) {
+  idnt = response[i].id;
+  tm = response[i].timeSlot;
+  dt = response[i].walkDate;
+  wM = response[i].walkMemo;
+  html1 += apptLine;
+} 
+$('#apptList').html(html1);
+
+$("#apptList").on("click", function(event){
+  var walk = $(this).children(`${idnt}tb`).attr(`${idnt}tb`);
+  console.log(walk)
+})
+})
 
   //function to get first namer of dog owner
 
@@ -23,7 +64,7 @@ $(document).ready(function() {
     if (data.length > 0) {
       $("#defaultMessage").hide();
       for (i = 0; i < data.length; i++) {
-        console.log(data[i])
+        
         $("#appointments").append(
           "<li class='collection-item'>" + "Dog Name: " + data[i].Dog.dogName + "<br>Walk Date: " + data[i].walkDate + "<br>Time Slot: " + data[i].timeSlot + "</li>"
         );
@@ -40,11 +81,11 @@ $(document).ready(function() {
   //retrieving current dog data and creating an li
   function getDogData(){
   $.get("/api/dog/" + user.id).then((results) => {
-    console.log(results);
+   
     $("#petList").empty();  
     results.forEach(function(res){
       $("#petList").append(
-        `<li class='collection-item' id="dog-list" data-id="${res.id}"><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text' id='trash'>delete_forever</i></a></div></div></li>`
+        `<li class='collection-item dogs' id="${res.id}"><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text delete-dog' id='trash'>delete_forever</i></a></div></div></li>`
       );
     })
     });
@@ -53,6 +94,18 @@ $(document).ready(function() {
   $("#addPet").on("click", function(){
     getDogData();
   })
+  
+  //delete dog information
+  $("#deleteDog").on("click", (event) => {
+    event.preventDefault();
+    console.log("this is the delete button");
+   if(event.target.matches("btn-flat") && event.target.classList.contains("dogs")){
+     const dogId = e.target.id
+    console.log(dogId)
+    $.delete("/api/dog/" + dogId)
+    getDogData();
+  }
+  });
   
 
 
@@ -86,6 +139,7 @@ $(document).ready(function() {
 
     //autofills Member Profile
   $.get("/api/actor/" + user.id).then(results => {
+    console.log()
     $("#firstNam").html(results.firstName);
     $("#lastNam").html(results.lastName);
     $("#add1").html(results.address1);
@@ -104,16 +158,10 @@ $(document).ready(function() {
   //   $.put("/api/dog" + id).then((result) => {});
   // });
 
-  //delete dog information
-  $("#deleteDog").on("click", (event) => {
-    // event.preventDefault();
-    const dogId = $("#dog-list").data(id);
-    $.delete("/api/dog/" + dogId).then(() => {
-     getDogData()
-    });
-  });
+
 });
 });
+
 
 // floating action navbar at the bottom of page
 document.addEventListener("DOMContentLoaded", function() {
@@ -268,5 +316,5 @@ $(document).ready(function() {
       whippet: null,
       irishwolfhound: null,
     },
-  }).trim;
+  });
 });
