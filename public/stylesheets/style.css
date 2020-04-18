@@ -75,6 +75,7 @@ body {
 }
 
 #appointments,
+#scheduleModal,
 #modalProfile,
 #modalAddPet,
 #modal3,
@@ -112,7 +113,8 @@ button{
   transition: .5s all;
 }
 
-
+#addSchedBtn,
+#signUpBtn,
 #addPetBtn,
 #loginBtn{
   border-radius: 25px;

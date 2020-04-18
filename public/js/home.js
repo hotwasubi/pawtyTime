@@ -64,7 +64,7 @@ $(document).ready(function(){
       data: newUser
      }).then(
       function(){
-      console.log(res)
+      
       
      })
   })
