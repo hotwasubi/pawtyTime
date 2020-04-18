@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 
   $.get("/api/user_data").then(function(user) { 
-    
+    console.log(user);
 
 
   //function to get first namer of dog owner
@@ -17,19 +17,25 @@ $(document).ready(function() {
   });
 
   //function to get any active upcoming appointments
-
-  $.get("/api/booked_appt/" + user.id).then(function(data) {
+  
+  $.get("/api/mydog/" + user.id).then(function(data) {
+    
     if (data.length > 0) {
       $("#defaultMessage").hide();
-      for (let i = 0; i < data.length; i++) {
+      for (i = 0; i < data.length; i++) {
+        console.log(data[i])
         $("#appointments").append(
-          "<li class='collection-item'>" + data[i] + "</li>"
+          "<li class='collection-item'>" + "Dog Name: " + data[i].Dog.dogName + "<br>Walk Date: " + data[i].walkDate + "<br>Time Slot: " + data[i].timeSlot + "</li>"
         );
       }
-    } else {
+    }else {
       $("#defaultMessage").show();
     }
+    
+      // $("#defaultMessage").show();
+    
   });
+
 
   //retrieving current dog data and creating an li
   function getDogData(){
