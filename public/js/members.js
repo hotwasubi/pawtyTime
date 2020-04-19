@@ -41,8 +41,9 @@ $(document).ready(function() {
     apptLine = 
     `<li>
       <div class="row">
-        <a class="waves-effect waves-light btn-large apptBtn">
-          <div id=${idnt}tb  data-appt = ${idnt} class="col s2 inNum">
+        <div class="col s12">
+        <a class="waves-effect waves-light btn-large amber apptBtn">
+          <div id=${idnt}tb  data-appt = ${idnt} class="col s2 medium inNum">
             ${idnt}
           </div> <!--end column 1-->
         </a>
@@ -59,12 +60,15 @@ $(document).ready(function() {
           </div> <!--end of column 4-->
           <div class="col s12 input-display">
             <div class="input-container">
-              <input id="${idnt}wm" type="text" placeholder="${wM}" class="walkMemo">
-              <i class="material-icons">
-                create
+              <i class="material-icons prefix">
+              create
               </i>
+              <label for="${idnt}wm">Memo</label>
+              <input id="${idnt}wm" type="text" placeholder="${wM}" class="walkMemo">
+              
             </div>
           </div> <!--end column 5-->
+          </div>
         </div> <!--End of Row -->
       </li>`
     html1 = html1 + apptLine;
