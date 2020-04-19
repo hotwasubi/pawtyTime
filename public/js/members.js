@@ -130,12 +130,29 @@ $.ajax({
   function getDogData(){
   $.get("/api/dog/" + user.id).then((results) => {
    
+
     $("#petList").empty();  
     results.forEach(function(res){
       $("#petList").append(
-        `<li class='collection-item dogs' id="${res.id}"><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text delete-dog' id='trash'>delete_forever</i></a></div></div></li>`
+        `<li class='collection-item dogs' id='${res.id}'><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text'>delete_forever</i></a></div></div></li>`
       );
     })
+
+      //delete dog information
+
+  $("#deleteDog").on("click", (event) => {
+    event.preventDefault();
+    console.log("this is the delete button");
+     const dogId = $(".dogs").attr("id");
+    console.log(dogId)
+    $.ajax({
+      method: "DELETE",
+      url: "/api/dog/" + dogId
+    }).then(getDogData())
+    // getDogData();
+  });
+
+
     });
   };
 
@@ -143,18 +160,7 @@ $.ajax({
     getDogData();
   })
   
-  //delete dog information
-  $("#deleteDog").on("click", (event) => {
-    event.preventDefault();
-    console.log("this is the delete button");
-   if(event.target.matches("btn-flat") && event.target.classList.contains("dogs")){
-     const dogId = e.target.id
-    console.log(dogId)
-    $.delete("/api/dog/" + dogId)
-    getDogData();
-  }
-  });
-  
+
 
 
   //add pet button to post new dog info to db
