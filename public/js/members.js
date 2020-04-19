@@ -94,6 +94,8 @@ $.ajax({
         method: "GET"
       }).then(function(resp2){
         updateAppt(resp2);
+        $("#scheduleModal").modal("close");
+        refreshAppt();
       });
     };
   });
@@ -107,23 +109,24 @@ $.ajax({
 
   //function to get any active upcoming appointments
   
-  $.get("/api/mydog/" + user.id).then(function(data) {
-    
-    if (data.length > 0) {
-      $("#defaultMessage").hide();
-      for (i = 0; i < data.length; i++) {
-        
-        $("#appointments").append(
-          "<li class='collection-item'>" + "Dog Name: " + data[i].Dog.dogName + "<br>Walk Date: " + data[i].walkDate + "<br>Time Slot: " + data[i].timeSlot + "</li>"
-        );
+  const refreshAppt = () =>{
+    $.get("/api/mydog/" + user.id).then(function(data) {
+      if (data.length > 0) {
+        $("#defaultMessage").hide();
+        $("#appointments").empty();
+        for (i = 0; i < data.length; i++) {
+          
+          $("#appointments").append(
+            "<li class='collection-item'>" + "Dog Name: " + data[i].Dog.dogName + "<br>Walk Date: " + data[i].walkDate + "<br>Time Slot: " + data[i].timeSlot + "</li>"
+          );
+        }
+      }else {
+        $("#defaultMessage").show();
       }
-    }else {
-      $("#defaultMessage").show();
-    }
-    
-      // $("#defaultMessage").show();
-    
-  });
+    });
+  };
+
+  refreshAppt();
 
 
   //retrieving current dog data and creating an li
