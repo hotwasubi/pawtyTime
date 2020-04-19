@@ -41,8 +41,9 @@ $(document).ready(function() {
     apptLine = 
     `<li>
       <div class="row">
-        <a class="waves-effect waves-light btn-large apptBtn">
-          <div id=${idnt}tb  data-appt = ${idnt} class="col s2 inNum">
+        <div class="col s12">
+        <a class="waves-effect waves-light btn-large amber apptBtn">
+          <div id=${idnt}tb  data-appt = ${idnt} class="col s2 medium inNum">
             ${idnt}
           </div> <!--end column 1-->
         </a>
@@ -59,12 +60,15 @@ $(document).ready(function() {
           </div> <!--end of column 4-->
           <div class="col s12 input-display">
             <div class="input-container">
-              <input id="${idnt}wm" type="text" placeholder="${wM}" class="walkMemo">
-              <i class="material-icons">
-                create
+              <i class="material-icons prefix">
+              create
               </i>
+              <label for="${idnt}wm">Memo</label>
+              <input id="${idnt}wm" type="text" placeholder="${wM}" class="walkMemo">
+              
             </div>
           </div> <!--end column 5-->
+          </div>
         </div> <!--End of Row -->
       </li>`
     html1 = html1 + apptLine;
@@ -133,12 +137,29 @@ $.ajax({
   function getDogData(){
   $.get("/api/dog/" + user.id).then((results) => {
    
+
     $("#petList").empty();  
     results.forEach(function(res){
       $("#petList").append(
-        `<li class='collection-item dogs' id="${res.id}"><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text delete-dog' id='trash'>delete_forever</i></a></div></div></li>`
+        `<li class='collection-item dogs' id='${res.id}'><div class='row'><div class='col s9'>Dog Name: ${res.dogName}<br>Breed: ${res.breed} </div><div class='col s3'><a class='secondary-content btn-flat' id='deleteDog'><i class='material-icons red-text'>delete_forever</i></a></div></div></li>`
       );
     })
+
+      //delete dog information
+
+  $("#deleteDog").on("click", (event) => {
+    event.preventDefault();
+    console.log("this is the delete button");
+     const dogId = $(".dogs").attr("id");
+    console.log(dogId)
+    $.ajax({
+      method: "DELETE",
+      url: "/api/dog/" + dogId
+    }).then(getDogData())
+    // getDogData();
+  });
+
+
     });
   };
 
@@ -146,18 +167,7 @@ $.ajax({
     getDogData();
   })
   
-  //delete dog information
-  $("#deleteDog").on("click", (event) => {
-    event.preventDefault();
-    console.log("this is the delete button");
-   if(event.target.matches("btn-flat") && event.target.classList.contains("dogs")){
-     const dogId = e.target.id
-    console.log(dogId)
-    $.delete("/api/dog/" + dogId)
-    getDogData();
-  }
-  });
-  
+
 
 
   //add pet button to post new dog info to db
