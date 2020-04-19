@@ -219,10 +219,17 @@ module.exports = function(app) {
     app.get("/api/mydog/:id", function(req, res){  
       db.Appt.findAll({
         attributes: ["id", "walkDate", "timeSlot", "DogActorId", "walkMemo"],
+        order: [
+          ["walkDate", "DESC"],
+          ["timeSlot", "DESC"]
+        ],
         include:[{
           model:db.Dog,
           attributes: ["dogName", "DogActorId"],
-          where:{dogActorId:req.params.id}
+          where:{dogActorId:req.params.id},
+          order:[
+            ["dogName", "DESC"]
+          ]
         }]
       }).then(function(myAppt){
         res.json(myAppt)
