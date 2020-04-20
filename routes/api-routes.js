@@ -219,17 +219,11 @@ module.exports = function(app) {
     app.get("/api/mydog/:id", function(req, res){  
       db.Appt.findAll({
         attributes: ["id", "walkDate", "timeSlot", "DogActorId", "walkMemo"],
-        order: [
-          ["walkDate", "DESC"],
-          ["timeSlot", "DESC"]
-        ],
         include:[{
           model:db.Dog,
           attributes: ["dogName", "DogActorId"],
-          where:{dogActorId:req.params.id},
-          order:[
-            ["dogName", "DESC"]
-          ]
+          where:{
+            dogActorId:req.params.id}
         }]
       }).then(function(myAppt){
         res.json(myAppt)
@@ -261,7 +255,7 @@ module.exports = function(app) {
     // if cncl true, cancel the appointment by setting dogUser = 0
        db.Appt.update({
         dogUser: 0,
-        DogId: 0
+        DogId: null
       },
       {
         where:{
@@ -273,6 +267,24 @@ module.exports = function(app) {
         res.status(401).json(err)
       });
   });
+
+    //Cancel all appointments for dog
+    app.put("/api/cancel-all/:id", function(req,res){
+      // if cncl true, cancel the appointment by setting dogUser = 0
+         db.Appt.update({
+          dogUser: 0,
+          DogId: null
+        },
+        {
+          where:{
+            dogUser: req.params.id
+          }
+        }).then(function(dbCancelAll){
+          res.json(dbCancelAll);
+        }).catch(err => {
+          res.status(401).json(err)
+        });
+    });
 
      
 
