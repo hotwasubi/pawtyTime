@@ -74,19 +74,17 @@ body {
   font-family: 'Pacifico', cursive;
 }
 
-
 #appointments,
 #scheduleModal,
 #modalProfile,
 #modalAddPet,
+#modalAddDelSlot,
 #modal3,
 #modal2,
  #modal1{
    font-family: 'Fjalla One', sans-serif;
  }
 
-
- .inNum,
 button{
   font-family: 'Pacifico', cursive;
 }
@@ -116,8 +114,6 @@ button{
   transition: .5s all;
 }
 
-.closeBtn,
-.apptBtn,
 #addSchedBtn,
 #signUpBtn,
 #addPetBtn,
